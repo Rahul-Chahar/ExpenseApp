@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Expense Tracker</title>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="container mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Expense Tracker</h1>
+    <form action="/expenses" method="POST" class="mb-6">
+      <div class="mb-4">
+        <input type="number" name="amount" placeholder="Amount" class="border p-2 w-full" required>
+      </div>
+      <div class="mb-4">
+        <input type="text" name="description" placeholder="Description" class="border p-2 w-full" required>
+      </div>
+      <div class="mb-4">
+        <select name="category" class="border p-2 w-full" required>
+          <option value="food">Food</option>
+          <option value="transport">Transport</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="health">Health</option>
+          <option value="education">Education</option>
+        </select>
+      </div>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2">Add Expense</button>
+    </form>
+    <div class="bg-white p-4 rounded shadow">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th class="text-left">Description</th>
+            <th class="text-left">Category</th>
+            <th class="text-left">Amount</th>
+            <th class="text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% expenses.forEach(expense => { %>
+          <tr>
+            <td><%= expense.description %></td>
+            <td><%= expense.category %></td>
+            <td>₹<%= expense.amount %></td>
+            <td>
+              <form action="/expenses/delete/<%= expense.id %>" method="POST" style="display:inline;">
+                <button type="submit" class="text-red-500">Delete</button>
+              </form>
+              <form action="/expenses/edit/<%= expense.id %>" method="GET" style="display:inline;">
+                <button type="submit" class="text-blue-500">Edit</button>
+              </form>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
