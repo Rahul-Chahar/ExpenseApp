@@ -11,31 +11,20 @@ const db = mysql.createPool({
 module.exports = {
   // Get all expenses
   getAllExpenses: (callback) => {
-    db.query('SELECT * FROM expenses', (err, results) => {
-      if (err) return callback(err);
-      callback(null, results);
-    });
+    db.query('SELECT * FROM expenses', callback);
   },
 
   // Add a new expense
-  addExpense: (expense, callback) => {
-    const { amount, description, category } = expense;
+  addExpense: (data, callback) => {
+    const { amount, description, category } = data;
     db.query(
       'INSERT INTO expenses (amount, description, category) VALUES (?, ?, ?)', 
-      [amount, description, category], 
-      (err) => {
-        if (err) return callback(err);
-        callback(null);
-      }
-    );
+      [amount, description, category], callback );
   },
 
   // Delete an expense by ID
   deleteExpense: (id, callback) => {
-    db.query('DELETE FROM expenses WHERE id = ?', [id], (err) => {
-      if (err) return callback(err);
-      callback(null);
-    });
+    db.query('DELETE FROM expenses WHERE id = ?', [id], callback);
   },
 
   // Get an expense by its ID
@@ -47,15 +36,10 @@ module.exports = {
   },
 
   // Update an expense by its ID
-  updateExpense: (id, updatedExpense, callback) => {
-    const { amount, description, category } = updatedExpense;
+  updateExpense: (id, data, callback) => {
+    const { amount, description, category } = data;
     db.query(
       'UPDATE expenses SET amount = ?, description = ?, category = ? WHERE id = ?', 
-      [amount, description, category, id], 
-      (err) => {
-        if (err) return callback(err);
-        callback(null);
-      }
-    );
+      [amount, description, category, id],callback);
   }
 };
